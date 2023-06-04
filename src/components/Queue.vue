@@ -1,6 +1,6 @@
 <template>
   <div class="h-full flex flex-col">
-    <div class="px-2 mt-2">
+    <div class="px-2 mt-2" v-if="nowPlaying">
       <h2 class="text-2xl font-bold">Now playing</h2>
       <Card :track="player.track" :enqueue="false" queue remove :index="0" />
     </div>
@@ -42,6 +42,15 @@
 import { usePlayer } from "../store/player";
 import { useUserStore } from "../store/user";
 import Card from "../components/Card.vue";
+
+const props = withDefaults(
+  defineProps<{
+    nowPlaying?: boolean
+  }>(),
+  {
+    nowPlaying: true,
+  }
+);
 
 const player = usePlayer();
 const user = useUserStore();
