@@ -1,12 +1,12 @@
 <template>
-  <div class="_image_wrapper relative">
+  <div class="_image_wrapper relative aspect-auto">
     <template v-if="!ready">
       <div
         class="absolute h-full w-full top-0 left-0 flex justify-center items-center"
       >
         <span class="loading loading-spinner"></span>
       </div>
-      <img :src="placeholderImg" />
+      <img :class="className" :src="placeholderImg" />
     </template>
     <img :class="className" :src="src" @load="ready = true" v-show="ready" />
   </div>
