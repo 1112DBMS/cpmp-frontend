@@ -41,13 +41,14 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useRoute } from "vue-router";
 import { useUserStore } from "../store/user";
 import { useDark, useToggle } from "@vueuse/core";
 import { Icon } from "@iconify/vue";
 
 const user = useUserStore();
+const routes = useRoute();
 
-const state = "15773059ghq9183habn";
 const isDark = useDark({
   attribute: "data-theme",
   valueLight: "light",
@@ -57,7 +58,7 @@ const toggleDark = useToggle(isDark);
 const loginUrl = computed(() => {
   return `https://discord.com/oauth2/authorize?response_type=code&client_id=${
     import.meta.env.VITE_DISCORD_CLIENTID
-  }&scope=identify%20email&state=${state}&redirect_uri=${
+  }&scope=identify%20email&state=${routes.fullPath}&redirect_uri=${
     window.location.origin
   }/oauthCallback&prompt=consent`;
 });

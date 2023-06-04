@@ -19,8 +19,7 @@ const init = async () => {
       code,
     },
   });
-  console.log(response);
-  router.push({ name: "Home" });
+  router.push(state as string);
 };
 
 onMounted(() => init());
