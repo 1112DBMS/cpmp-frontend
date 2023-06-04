@@ -14,7 +14,7 @@
         </span>
         <LazyImg
           :src="`/public/${track?.thumbnail}`"
-          class="aspect-auto"
+          class="aspect-auto rounded-md"
           :class="mobile || queue ? 'w-[5rem]' : 'w-[6rem]'"
         />
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="_image_wrapper relative" :class="className">
+  <div class="_image_wrapper relative">
     <template v-if="!ready">
       <div
         class="absolute h-full w-full top-0 left-0 flex justify-center items-center"
@@ -8,7 +8,7 @@
       </div>
       <img :src="placeholderImg" />
     </template>
-    <img :src="src" @load="ready = true" v-show="ready" />
+    <img :class="className" :src="src" @load="ready = true" v-show="ready" />
   </div>
 </template>
 <script setup lang="ts">

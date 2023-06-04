@@ -8,7 +8,7 @@
     <div class="flex gap-6 items-center p-4">
       <LazyImg
         :src="`/public/${track?.thumbnail}`"
-        class="aspect-auto"
+        class="aspect-auto rounded-md"
         :class="mobile ? 'w-[5rem]' : 'w-[6rem]'"
       />
       <div class="flex flex-col gap-2 grow overflow-hidden justify-center">
