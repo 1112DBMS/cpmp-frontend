@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on:
+  pull_request:
+    branches: ["master"]
+    types: [closed]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          run_install: true
+          version: 8.5.1
+
+      - run: echo "VITE_DISCORD_CLIENTID=${{ secrets.VITE_DISCORD_CLIENTID }}" >> .env
+
+      - name: Build for production
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-dist
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir dist
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-dist
+          path: dist
+      - name: Publish to Server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: "dist"
+          remote: ${{ secrets.SSH_FRONTEND_DIR }}
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          privateKey: ${{ secrets.SSH_KEY }}
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: frontend-dist
