@@ -3,7 +3,7 @@
     <div v-if="loading" class="h-full flex justify-center align-middle">
       <span class="loading loading-spinner loading-lg"></span>
     </div>
-    <h2 class="text-2xl font-bold mx-2" v-else>My history</h2>
+    <h2 class="text-2xl font-bold mx-2" v-else>{{ user.isLoggedin ? "My Top 10" : "Top 10" }}</h2>
     <ScrollFrame v-if="!loading">
       <Card
         v-for="track in result"
@@ -19,10 +19,11 @@
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { fetchApi } from "../utils/api";
+import { useUserStore } from "../store/user";
 import Card from "../components/Card.vue";
 import ScrollFrame from "../components/ScrollFrame.vue";
 
-const routes = useRoute();
+const user = useUserStore();
 const loading = ref(false);
 const result = ref<Track[]>([]);
 
@@ -31,7 +32,7 @@ const init = async () => {
   loading.value = true;
   const response = await fetchApi("/top", "get", {
     params: {
-      self: 1,
+      self: user.isLoggedin ? 1 : undefined,
     },
   });
   loading.value = false;
@@ -46,7 +47,7 @@ const handleSelect = (track: Track) => {
 onMounted(() => init());
 
 watch(
-  () => routes.query.keyword,
+  () => user.isLoggedin,
   () => init()
 );
 </script>
