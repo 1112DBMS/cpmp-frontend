@@ -1,6 +1,6 @@
 <template>
   <div class="h-full flex flex-col">
-    <div class="px-4 mt-2">
+    <div class="px-2 mt-2">
       <h2 class="text-2xl font-bold">Now playing</h2>
       <Card :track="player.track" :enqueue="false" queue remove :index="0" />
     </div>
@@ -9,7 +9,7 @@
       class="flex flex-col gap-2 relative grow rounded-2xl"
       id="queue-container"
     >
-      <div class="px-4 pt-1">
+      <div class="px-2 pt-1">
         <h2 class="text-2xl font-bold">Queue</h2>
         <Card
           v-for="(track, i) in player.queue"

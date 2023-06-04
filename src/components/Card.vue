@@ -2,22 +2,14 @@
   <div class="card card-compact bg-base-100 shadow-lg m-2" ref="cardRef">
     <div
       class="card-body grow flex-row items-center"
-      :class="queue ? 'gap-3' : 'gap-6'"
+      :class="queue ? 'gap-3' : 'gap-5'"
       v-if="track"
     >
-      <div class="indicator shrink-0">
-        <span
-          class="indicator-item badge badge-success"
-          v-if="track.download && !queue"
-        >
-          <Icon icon="material-symbols:download-done-rounded" />
-        </span>
-        <LazyImg
+      <LazyImg
           :src="`/public/${track?.thumbnail}`"
-          class="aspect-auto rounded-md"
+          class="aspect-auto rounded-md shrink-0"
           :class="mobile || queue ? 'w-[5rem]' : 'w-[6rem]'"
         />
-      </div>
       <div class="flex flex-col overflow-hidden grow shrink-1 w-0">
         <h4 class="card-title inline-block min-w-0">
           <span className="font-semibold truncate block">
