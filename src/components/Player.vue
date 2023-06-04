@@ -117,7 +117,7 @@
   <Modal :open="open" @handleClose="open = false">
     <template v-slot:modal>
       <div class="w-[100vw] h-[100vh] max-h-[500px] max-w-2xl">
-        <div class="card py-4 bg-base-100 shadow rounded-2xl m-4 h-full">
+        <div class="card p-4 bg-base-100 shadow rounded-2xl m-4 h-full">
           <ScrollFrame>
             <Queue />
           </ScrollFrame>
@@ -258,7 +258,7 @@ watch(loop, (val) => {
   sound.value?.loop(val === 2);
 });
 
-watch(track, () => {
+watch(track, (val) => {
   sound.value?.unload();
   sound.value = null;
   playing.value = false;
@@ -266,6 +266,7 @@ watch(track, () => {
   timer.value = -1;
   time.value = 0;
   duration.value = 0;
+  if (!val) return;
   handlePlay();
 });
 
