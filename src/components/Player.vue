@@ -4,6 +4,7 @@
     :disabled="realLoading"
     :loading="realLoading"
     v-if="track"
+    @click="handleOpen"
   >
     <div class="flex gap-6 items-center p-4">
       <LazyImg
@@ -17,12 +18,6 @@
             <span class="truncate block font-bold">{{ track.title }}</span>
           </h2>
           <div class="flex gap-2">
-            <button class="btn btn-circle" @click="open = true" v-if="mobile">
-              <Icon
-                icon="material-symbols:queue-music-rounded"
-                class="text-2xl"
-              />
-            </button>
             <button
               class="btn btn-circle"
               v-if="!mobile"
@@ -41,7 +36,7 @@
             </button>
             <button
               class="btn btn-circle"
-              @click="handlePlay"
+              @click.stop="handlePlay"
               :disabled="loading"
             >
               <span class="loading loading-spinner" v-if="loading"></span>
@@ -57,7 +52,7 @@
             </button>
             <button
               class="btn btn-circle"
-              @click="handleNext"
+              @click.stop="handleNext"
               :disabled="!user.isLoggedin || loading"
             >
               <Icon
@@ -114,17 +109,91 @@
       v-if="mobile"
     />
   </div>
-  <Modal :open="open" @handleClose="open = false">
-    <template v-slot:modal>
-      <div class="w-[100vw] h-[100vh] max-h-[500px] max-w-2xl">
-        <div class="card p-4 bg-base-100 shadow rounded-2xl m-4 h-full">
-          <ScrollFrame>
-            <Queue />
-          </ScrollFrame>
+  <MobilePlayer :open="open" @handleClose="open = false">
+    <template v-slot:default>
+      <ScrollFrame>
+        <div class="flex flex-col gap-4 min-h-full">
+          <div class="flex justify-center items-center grow h-1/2">
+            <LazyImg
+              :src="`/public/${track?.thumbnail}`"
+              class="aspect-auto rounded-lg"
+            />
+          </div>
+          <h2
+            class="font-bold text-2xl text-center inline-block min-w-0 w-full overflow-hidden"
+          >
+            <span class="truncate block">{{ track?.title }}</span>
+          </h2>
+          <div class="inline-block min-w-0 w-full overflow-hidden">
+            <span class="truncate block">{{ track?.uploader }}</span>
+          </div>
+          <div class="flex gap-2">
+            <span>{{ formatTime(isDragging ? tmpTime : time) }}</span>
+            <input
+              type="range"
+              min="0"
+              :max="duration"
+              :value="isDragging ? tmpTime : time"
+              @input="handleStart"
+              @change="handleEnd"
+              class="range range-xs range-primary"
+            />
+            <span>{{ formatTime(duration) }}</span>
+          </div>
+          <div class="flex gap-2 justify-center">
+            <button
+              class="btn btn-circle"
+              @click="handleToggleLoop"
+              :disabled="player.loopLoading"
+            >
+              <Icon
+                :icon="
+                  player.loop === 2
+                    ? 'material-symbols:repeat-one-rounded'
+                    : 'material-symbols:repeat-rounded'
+                "
+                class="text-2xl"
+                :class="{ 'opacity-30': !player.loop }"
+              />
+            </button>
+            <button
+              class="btn btn-circle"
+              @click="handlePlay"
+              :disabled="loading"
+            >
+              <span class="loading loading-spinner" v-if="loading"></span>
+              <Icon
+                v-else
+                :icon="
+                  !playing
+                    ? 'material-symbols:play-arrow-rounded'
+                    : 'material-symbols:pause-rounded'
+                "
+                class="text-2xl"
+              />
+            </button>
+            <button
+              class="btn btn-circle"
+              @click="handleNext"
+              :disabled="!user.isLoggedin || loading"
+            >
+              <Icon
+                icon="material-symbols:skip-next-rounded"
+                class="text-2xl"
+              />
+            </button>
+            <button class="btn btn-circle" @click="handleToggleShuffle">
+              <Icon
+                icon="material-symbols:shuffle-outline-rounded"
+                class="text-2xl"
+              />
+            </button>
+          </div>
+          <Queue :nowPlaying="false" />
         </div>
-      </div>
+      </ScrollFrame>
     </template>
-  </Modal>
+  </MobilePlayer>
 </template>
 
 <script setup lang="ts">
@@ -136,6 +205,7 @@ import { storeToRefs } from "pinia";
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 import { Icon } from "@iconify/vue";
 import Modal from "./Modal.vue";
+import MobilePlayer from "./MobilePlayer.vue";
 import Queue from "./Queue.vue";
 import LazyImg from "./LazyImg.vue";
 import ScrollFrame from "./ScrollFrame.vue";
@@ -205,6 +275,12 @@ const handlePlay = () => {
   }
 };
 
+const handleOpen = () => {
+  if (mobile.value) {
+    open.value = true;
+  }
+};
+
 const handleNext = async () => {
   loading.value = true;
   await player.next();
@@ -266,7 +342,10 @@ watch(track, (val) => {
   timer.value = -1;
   time.value = 0;
   duration.value = 0;
-  if (!val) return;
+  if (!val) {
+    open.value = false;
+    return;
+  }
   handlePlay();
 });
 
