@@ -60,6 +60,7 @@ const handleClose = () => emit("handleClose");
 
 <style scoped>
 .modal-content {
-  @apply h-[90vh] w-[100vw] rounded-t-2xl bg-base-100 p-6 shadow;
+  @apply w-[100vw] rounded-t-2xl bg-base-100 p-6 shadow;
+  height: calc(var(--doc-height) * 0.9);
 }
 </style>
