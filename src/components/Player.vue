@@ -63,6 +63,7 @@
             <button
               class="btn btn-circle"
               v-if="!mobile"
+              :disabled="!user.isLoggedin"
               @click="handleToggleShuffle"
             >
               <Icon
@@ -182,7 +183,11 @@
                 class="text-2xl"
               />
             </button>
-            <button class="btn btn-circle" @click="handleToggleShuffle">
+            <button
+              class="btn btn-circle"
+              @click="handleToggleShuffle"
+              :disabled="!user.isLoggedin"
+            >
               <Icon
                 icon="material-symbols:shuffle-outline-rounded"
                 class="text-2xl"
@@ -237,7 +242,8 @@ const handlePlay = () => {
   if (!sound.value) {
     loading.value = true;
     sound.value = new Howl({
-      src: `/api/play?id=${track.value?.id}`,
+      // src: [`/api/play?id=${track.value?.id}`],
+      src: [`/songs/${track.value?.id}`],
       format: "webm",
       volume: realVolume.value,
       autoplay: true,
