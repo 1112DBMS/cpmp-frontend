@@ -89,13 +89,11 @@ export const usePlayer = defineStore("player", () => {
   };
 
   const next = async () => {
-    if (loop.value === 2) return;
     loading.value = true;
     try {
-      const response = await fetchApi("/queue", "DELETE", {
+      const response = await fetchApi("/queue/next", "POST", {
         data: {
-          id: track.value?.id,
-          idx: 0,
+          queue: queueId.value
         },
       });
     } catch (e) {

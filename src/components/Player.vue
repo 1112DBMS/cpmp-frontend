@@ -237,7 +237,8 @@ const handlePlay = () => {
   if (!sound.value) {
     loading.value = true;
     sound.value = new Howl({
-      src: `/api/play?id=${track.value?.id}`,
+      // src: [`/api/play?id=${track.value?.id}`],
+      src: [`/songs/${track.value?.id}`],
       format: "webm",
       volume: realVolume.value,
       autoplay: true,
