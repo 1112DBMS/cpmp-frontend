@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { fetchApi } from "../utils/api";
+import { useUserStore } from "./user";
 
 export const usePlayer = defineStore("player", () => {
   const queueId = ref<string | undefined>(undefined);
@@ -9,6 +10,8 @@ export const usePlayer = defineStore("player", () => {
   // 0: no loop, 1: queue, 2: one song
   const loop = ref<0 | 1 | 2>(0);
   const loopLoading = ref(false);
+
+  const user = useUserStore();
 
   const track = ref<QueueTrack | undefined>(undefined);
 
@@ -93,7 +96,7 @@ export const usePlayer = defineStore("player", () => {
     try {
       const response = await fetchApi("/queue/next", "POST", {
         data: {
-          queue: queueId.value
+          queue: queueId.value,
         },
       });
     } catch (e) {
@@ -104,8 +107,16 @@ export const usePlayer = defineStore("player", () => {
   };
 
   const toggleLoop = async () => {
-    loopLoading.value = true;
     const value = ((loop.value + 1) % 3) as 0 | 1 | 2;
+    if (!user.isLoggedin) {
+      if (value === 1) {
+        loop.value = 2;
+      } else {
+        loop.value = value;
+      }
+      return;
+    }
+    loopLoading.value = true;
     try {
       const response = await fetchApi("/queue/loop", "POST", {
         data: {
@@ -119,9 +130,7 @@ export const usePlayer = defineStore("player", () => {
     loopLoading.value = false;
   };
 
-  const toggleShuffle = () => {
-    
-  };
+  const toggleShuffle = () => {};
 
   return {
     track,
