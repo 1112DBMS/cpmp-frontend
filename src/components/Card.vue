@@ -6,26 +6,17 @@
       v-if="track"
     >
       <LazyImg
-          :src="`/public/${track?.thumbnail}`"
-          class="aspect-auto rounded-md shrink-0"
-          :class="mobile || queue ? 'w-[5rem]' : 'w-[6rem]'"
-        />
+        :src="`/public/${track?.thumbnail}`"
+        class="aspect-auto rounded-md shrink-0"
+        :class="mobile || queue ? 'w-[5rem]' : 'w-[6rem]'"
+      />
       <div class="flex flex-col overflow-hidden grow shrink-1 w-0">
-        <h4 class="card-title inline-block min-w-0">
-          <span className="font-semibold truncate block">
-            {{ track.title }}
-          </span>
-        </h4>
-        <p class="inline-block min-w-0">
-          <span className="font-semibold truncate block">
-            {{ track.uploader }}
-          </span>
-        </p>
-        <p class="inline-block min-w-0" v-if="!queue">
-          <span className="text-xs truncate block">
-            Play count: {{ track.playCount }}
-          </span>
-        </p>
+        <AutoScrollText :text="track.title" class="card-title" />
+        <AutoScrollText :text="track.uploader" class="font-semibold" />
+        <AutoScrollText
+          :text="`Play Count: ${track.playCount}`"
+          class="text-xs"
+        />
       </div>
       <div class="shrink-0 flex gap-2">
         <div class="tooltip" data-tip="Add to queue" v-if="enqueue">
@@ -96,6 +87,7 @@ import { useUserStore } from "../store/user";
 import { usePlayer } from "../store/player";
 import { fetchApi } from "../utils/api";
 import LazyImg from "./LazyImg.vue";
+import AutoScrollText from "./AutoScrollText.vue";
 
 const cardRef = ref();
 const isHovered = useElementHover(cardRef);

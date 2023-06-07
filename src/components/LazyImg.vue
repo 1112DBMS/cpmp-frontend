@@ -8,7 +8,13 @@
       </div>
       <img class="absolute" :class="className" :src="placeholderImg" />
     </template>
-    <img :class="[className]" :data-src="src" @load="ready = true" ref="el" />
+    <img
+      :class="[className]"
+      class="select-none pointer-events-none"
+      :data-src="src"
+      @load="ready = true"
+      ref="el"
+    />
   </div>
 </template>
 <script setup lang="ts">
