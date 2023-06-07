@@ -19,6 +19,9 @@ dependencies:
   theme-change:
     specifier: ^2.5.0
     version: 2.5.0
+  v-dropdown-menu:
+    specifier: ^2.0.2
+    version: 2.0.2
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -1318,6 +1321,11 @@ packages:
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /v-dropdown-menu@2.0.2:
+    resolution: {integrity: sha512-Cz264wcN0yg/LAJ5v3m1EgV4wnSF1z++NPd05mAkot4AiZIPMNkNYKZCyR3tRlXOUgW/DqckpDn6c/W82dejcA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /vite@4.3.8(@types/node@20.2.5)(sass@1.62.1):
     resolution: {integrity: sha512-uYB8PwN7hbMrf4j1xzGDk/lqjsZvCDbt/JC5dyfxc19Pg8kRm14LinK/uq+HSLNswZEoKmweGdtpbnxRtrAXiQ==}

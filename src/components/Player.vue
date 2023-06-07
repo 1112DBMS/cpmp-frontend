@@ -14,9 +14,10 @@
       />
       <div class="flex flex-col gap-2 grow overflow-hidden justify-center">
         <div class="flex gap-2">
-          <h2 class="inline-block min-w-0 grow self-center">
-            <span class="truncate block font-bold">{{ track.title }}</span>
-          </h2>
+          <AutoScrollText
+            :text="track.title"
+            class="grow self-center font-semibold"
+          />
           <div class="flex gap-2">
             <button
               class="btn btn-circle"
@@ -120,14 +121,11 @@
               class="aspect-auto rounded-lg"
             />
           </div>
-          <h2
-            class="font-bold text-2xl text-center inline-block min-w-0 w-full overflow-hidden"
-          >
-            <span class="truncate block">{{ track?.title }}</span>
-          </h2>
-          <div class="inline-block min-w-0 w-full overflow-hidden">
-            <span class="truncate block">{{ track?.uploader }}</span>
-          </div>
+          <AutoScrollText
+            :text="track?.title"
+            class="font-bold text-2xl text-center"
+          />
+          <AutoScrollText :text="track?.uploader" />
           <div class="flex gap-2">
             <span>{{ formatTime(isDragging ? tmpTime : time) }}</span>
             <input
@@ -214,6 +212,7 @@ import MobilePlayer from "./MobilePlayer.vue";
 import Queue from "./Queue.vue";
 import LazyImg from "./LazyImg.vue";
 import ScrollFrame from "./ScrollFrame.vue";
+import AutoScrollText from "./AutoScrollText.vue";
 
 const emits = defineEmits(["handleEnd"]);
 const player = usePlayer();
