@@ -126,7 +126,7 @@
             class="font-bold text-2xl text-center"
           />
           <AutoScrollText :text="track?.uploader" />
-          <div class="flex gap-2">
+          <div class="flex gap-2 items-center">
             <span>{{ formatTime(isDragging ? tmpTime : time) }}</span>
             <input
               type="range"
@@ -213,6 +213,7 @@ import Queue from "./Queue.vue";
 import LazyImg from "./LazyImg.vue";
 import ScrollFrame from "./ScrollFrame.vue";
 import AutoScrollText from "./AutoScrollText.vue";
+import { createSession, updateSession } from "../utils/mediaSessoion";
 
 const emits = defineEmits(["handleEnd"]);
 const player = usePlayer();
@@ -257,8 +258,10 @@ const handlePlay = () => {
       onplay: () => {
         playing.value = true;
         document.title = track.value?.title || "";
+        if (track.value) createSession(track.value, handlePlay, handleNext);
         timer.value = window.setInterval(() => {
           time.value = sound.value?.seek() || 0;
+          updateSession(duration.value, time.value);
         }, 100);
       },
       onpause: () => {
