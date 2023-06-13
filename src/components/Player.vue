@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="flex gap-2" v-if="!mobile">
+        <div class="flex gap-2 items-center" v-if="!mobile">
           <span>{{ formatTime(isDragging ? tmpTime : time) }}</span>
           <input
             type="range"
@@ -243,8 +243,8 @@ const handlePlay = () => {
   if (!sound.value) {
     loading.value = true;
     sound.value = new Howl({
-      // src: [`/api/play?id=${track.value?.id}`],
-      src: [`/songs/${track.value?.id}`],
+      src: [`/api/play?id=${track.value?.id}`],
+      // src: [`/songs/${track.value?.id}`],
       format: "webm",
       volume: realVolume.value,
       autoplay: true,
