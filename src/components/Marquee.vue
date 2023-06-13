@@ -1,12 +1,14 @@
 <template>
-  <Vue3Marquee :delay="1" :duration="text.length" pauseOnHover :class="class">
-    {{ text }}
-  </Vue3Marquee>
+  <p class="inline-block min-w-0" :class="class">
+    <span className="font-semibold truncate block">
+      {{ text }}
+    </span>
+  </p>
 </template>
 
 <script setup lang="ts">
-import { Vue3Marquee } from "vue3-marquee";
-import "vue3-marquee/dist/style.css";
+import { computed, ref } from "vue";
+import { useResizeObserver } from "@vueuse/core";
 
 const props = withDefaults(
   defineProps<{
@@ -19,18 +21,3 @@ const props = withDefaults(
   }
 );
 </script>
-
-<style scoped>
-@keyframes scroll {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.auto-scroll-text {
-  animation: scroll 10s;
-}
-</style>
