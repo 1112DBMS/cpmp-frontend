@@ -19,7 +19,7 @@
         </p>
         <p class="inline-block min-w-0">
           <span className="text-xs truncate block">
-            Play Count: {{track.playCount}}
+            Play Count: {{ track.playCount }}
           </span>
         </p>
       </div>
@@ -44,10 +44,21 @@
           data-tip="like"
           v-if="like && (isHovered || loading || !queue) && user.isLoggedin"
         >
-          <button class="btn btn-square" :class="{ 'btn-sm': queue || mobile }">
+          <button
+            class="btn btn-square"
+            :class="{ 'btn-sm': queue || mobile }"
+            :disabled="likeLoading"
+          >
+            <span class="loading loading-spinner" v-if="likeLoading"></span>
             <Icon
-              icon="material-symbols:heart-plus"
+              v-else
+              :icon="
+                track.like
+                  ? 'material-symbols:heart-minus'
+                  : 'material-symbols:heart-plus'
+              "
               :class="queue || mobile ? 'text-lg' : 'text-2xl'"
+              @click="handleLike"
             />
           </button>
         </div>
@@ -115,7 +126,7 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits(["handleEnqueue"]);
+const emits = defineEmits(["handleEnqueue", "handleLike"]);
 
 const player = usePlayer();
 const user = useUserStore();
@@ -156,5 +167,21 @@ const handleDelete = async () => {
   });
   await player.getQueue();
   deleteLoading.value = false;
+};
+
+const handleLike = async () => {
+  likeLoading.value = true;
+  const response = await fetchApi("/like", "POST", {
+    data: {
+      id: props.track?.id,
+      set: props.track?.like ? false : true,
+    },
+  });
+  likeLoading.value = false;
+  if (props.track)
+    emits("handleLike", {
+      ...props.track,
+      like: props.track.like ? false : true,
+    });
 };
 </script>

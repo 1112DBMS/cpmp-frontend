@@ -14,6 +14,7 @@
             :key="track.id"
             :track="track"
             @handleEnqueue="handleSelect"
+            @handleLike="handleLike"
           />
         </div>
 
@@ -81,6 +82,10 @@ const init = async () => {
 };
 
 const handleSelect = (track: Track) => {
+  result.value = result.value.map((t) => (t.id === track.id ? track : t));
+};
+
+const handleLike = (track: Track) => {
   result.value = result.value.map((t) => (t.id === track.id ? track : t));
 };
 
