@@ -258,7 +258,6 @@ const handlePlay = () => {
       },
       onplay: () => {
         playing.value = true;
-        document.title = track.value?.title || "";
         if (track.value) createSession(track.value, handlePlay, handleNext);
         timer.value = window.setInterval(() => {
           time.value = sound.value?.seek() || 0;
