@@ -3,13 +3,12 @@
     <div v-if="loading" class="h-full flex justify-center align-middle">
       <span class="loading loading-spinner loading-lg"></span>
     </div>
-    <h2 class="text-2xl font-bold mx-2" v-else>{{ user.isLoggedin ? "My Top 10" : "Top 10" }}</h2>
+    <h2 class="text-2xl font-bold mx-2" v-else>Like List</h2>
     <ScrollFrame v-if="!loading">
       <Card
-        v-for="track in result"
+        v-for="track in likeList"
         :key="track.id"
         :track="track"
-        @handleEnqueue="handleSelect"
         @handleLike="handleLike"
       />
     </ScrollFrame>
@@ -21,32 +20,22 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { fetchApi } from "../utils/api";
 import { useUserStore } from "../store/user";
+import { useLike } from "../store/like";
 import Card from "../components/Card.vue";
 import ScrollFrame from "../components/ScrollFrame.vue";
+import { storeToRefs } from "pinia";
 
 const user = useUserStore();
-const loading = ref(false);
-const result = ref<Track[]>([]);
+const like = useLike();
+
+const { loading, likeList } = storeToRefs(like);
 
 const init = async () => {
-  result.value = [];
-  loading.value = true;
-  const response = await fetchApi("/top", "get", {
-    params: {
-      self: user.isLoggedin ? 1 : undefined,
-    },
-  });
-  loading.value = false;
-  console.log(response);
-  result.value = response.data.data.list;
-};
-
-const handleSelect = (track: Track) => {
-  result.value = result.value.map((t) => (t.id === track.id ? track : t));
+  like.getList();
 };
 
 const handleLike = (track: Track) => {
-  result.value = result.value.map((t) => (t.id === track.id ? track : t));
+  init();
 };
 
 onMounted(() => init());

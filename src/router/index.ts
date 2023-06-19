@@ -17,6 +17,12 @@ const routes = [
         name: "Search",
         component: () =>
           import(/* webpackChunkName: "search" */ "../page/Search.vue"),
+      },
+      {
+        path: "like",
+        name: "LikeList",
+        component: () =>
+          import(/* webpackChunkName: "search" */ "../page/LikeList.vue"),
       }
     ],
   },

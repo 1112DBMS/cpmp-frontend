@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col">
     <div class="px-2 mt-2" v-if="nowPlaying">
       <h2 class="text-2xl font-bold">Now playing</h2>
-      <Card :track="player.track" :enqueue="false" queue remove :index="0" />
+      <Card :track="player.track" :enqueue="false" queue remove @handleLike="handleLike" :index="0" />
     </div>
 
     <div
@@ -54,4 +54,8 @@ const props = withDefaults(
 
 const player = usePlayer();
 const user = useUserStore();
+
+const handleLike = () => {
+  player.getQueue()
+}
 </script>

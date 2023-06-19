@@ -4,7 +4,10 @@
       <RouterLink to="/" class="btn btn-ghost normal-case text-xl">
         CPMP
       </RouterLink>
-      <div class="grow">
+      <div class="grow flex justify-end gap-2">
+        <RouterLink to="like" class="btn btn-square">
+          <Icon class="text-2xl" icon="material-symbols:heart-check-rounded" />
+        </RouterLink>
         <SearchBar />
       </div>
       <LoginButton />
@@ -42,6 +45,7 @@ import { useUserStore } from "../store/user";
 import { usePlayer } from "../store/player";
 import Queue from "../components/Queue.vue";
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import { Icon } from "@iconify/vue";
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
