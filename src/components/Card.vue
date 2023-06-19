@@ -41,7 +41,7 @@
         </div>
         <div
           class="tooltip"
-          data-tip="like"
+          :data-tip="track.like ? 'unlike' : 'like'"
           v-if="like && (isHovered || loading || !queue) && user.isLoggedin"
         >
           <button
