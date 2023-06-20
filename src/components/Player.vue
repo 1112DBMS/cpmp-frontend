@@ -10,7 +10,7 @@
       <LazyImg
         :src="`/public/${track?.thumbnail}`"
         class="aspect-auto rounded-md"
-        :class="mobile ? 'w-[5rem]' : 'w-[6rem]'"
+        :class="mobile ? 'h-[3.75rem]' : 'h-[4.5rem]'"
       />
       <div class="flex flex-col gap-2 grow overflow-hidden justify-center">
         <div class="flex gap-2">

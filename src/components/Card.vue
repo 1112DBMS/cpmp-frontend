@@ -8,7 +8,7 @@
       <LazyImg
         :src="`/public/${track?.thumbnail}`"
         class="aspect-auto rounded-md shrink-0"
-        :class="mobile || queue ? 'w-[5rem]' : 'w-[6rem]'"
+        :class="mobile || queue ? 'h-[3.75rem]' : 'h-[4.5rem]'"
       />
       <div class="flex flex-col overflow-hidden grow shrink-1 w-0">
         <Marquee :text="track.title" class="card-title" />
@@ -58,7 +58,10 @@
                   ? 'material-symbols:heart-minus'
                   : 'material-symbols:heart-plus'
               "
-              :class="queue || mobile ? 'text-lg' : 'text-2xl'"
+              :class="[
+                queue || mobile ? 'text-lg' : 'text-2xl',
+                track.like ? 'text-error' : '',
+              ]"
             />
           </button>
         </div>
