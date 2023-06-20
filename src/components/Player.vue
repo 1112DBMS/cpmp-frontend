@@ -61,12 +61,17 @@
             <button
               class="btn btn-circle"
               v-if="!mobile"
-              :disabled="!user.isLoggedin"
+              :disabled="!user.isLoggedin || shuffleLoading"
               @click="handleToggleShuffle"
             >
+              <span
+                class="loading loading-spinner"
+                v-if="shuffleLoading"
+              ></span>
               <Icon
                 icon="material-symbols:shuffle-outline-rounded"
                 class="text-2xl"
+                v-else
               />
             </button>
           </div>
@@ -185,11 +190,16 @@
             <button
               class="btn btn-circle"
               @click="handleToggleShuffle"
-              :disabled="!user.isLoggedin"
+              :disabled="!user.isLoggedin || shuffleLoading"
             >
+              <span
+                class="loading loading-spinner"
+                v-if="shuffleLoading"
+              ></span>
               <Icon
                 icon="material-symbols:shuffle-outline-rounded"
                 class="text-2xl"
+                v-else
               />
             </button>
           </div>
@@ -233,7 +243,12 @@ const duration = ref(0);
 const loading = ref(false);
 const isDragging = ref(false);
 const open = ref(false);
-const { track, loop, loading: downloadLoading } = storeToRefs(player);
+const {
+  track,
+  loop,
+  loading: downloadLoading,
+  shuffleLoading,
+} = storeToRefs(player);
 
 const realLoading = computed(() => loading.value || downloadLoading.value);
 
