@@ -48,6 +48,7 @@
             class="btn btn-square"
             :class="{ 'btn-sm': queue || mobile }"
             :disabled="likeLoading"
+            @click="handleLike"
           >
             <span class="loading loading-spinner" v-if="likeLoading"></span>
             <Icon
@@ -58,7 +59,6 @@
                   : 'material-symbols:heart-plus'
               "
               :class="queue || mobile ? 'text-lg' : 'text-2xl'"
-              @click="handleLike"
             />
           </button>
         </div>

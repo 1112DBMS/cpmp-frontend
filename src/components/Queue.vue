@@ -2,7 +2,15 @@
   <div class="h-full flex flex-col">
     <div class="px-2 mt-2" v-if="nowPlaying">
       <h2 class="text-2xl font-bold">Now playing</h2>
-      <Card :track="player.track" :enqueue="false" queue remove @handleLike="handleLike" :index="0" />
+      <Card
+        :track="player.track"
+        :enqueue="false"
+        :like="false"
+        queue
+        remove
+        @handleLike="handleLike"
+        :index="0"
+      />
     </div>
 
     <div
@@ -13,9 +21,9 @@
         <h2 class="text-2xl font-bold">Queue</h2>
         <Card
           v-for="(track, i) in player.queue"
-          :key="track.id"
           :track="track"
           :enqueue="false"
+          :like="false"
           queue
           remove
           :index="i + 1"
@@ -45,7 +53,7 @@ import Card from "../components/Card.vue";
 
 const props = withDefaults(
   defineProps<{
-    nowPlaying?: boolean
+    nowPlaying?: boolean;
   }>(),
   {
     nowPlaying: true,
@@ -55,7 +63,8 @@ const props = withDefaults(
 const player = usePlayer();
 const user = useUserStore();
 
-const handleLike = () => {
-  player.getQueue()
-}
+const handleLike = (track: QueueTrack) => {
+  console.log(track)
+  player.queue = player.queue.map((t) => (t.id === track.id ? track : t));
+};
 </script>
