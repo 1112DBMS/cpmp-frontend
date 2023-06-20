@@ -2,6 +2,7 @@
   <div class="flex flex-col h-full">
     <div class="navbar bg-base-100 shrink-0 gap-4 items-center">
       <RouterLink to="/" class="btn btn-ghost normal-case text-xl">
+        <img src="../assets/logo.png" class=" h-8" />
         CPMP
       </RouterLink>
       <div class="grow flex justify-end gap-2">
