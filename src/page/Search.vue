@@ -16,6 +16,12 @@
             @handleEnqueue="handleSelect"
             @handleLike="handleLike"
           />
+          <div
+            v-if="result.length === 0"
+            class="w-full h-full flex items-center justify-center text-xl font-semibold"
+          >
+            No Data
+          </div>
         </div>
 
         <div class="flex justify-center my-4" v-if="infiniteLoading">
@@ -76,7 +82,7 @@ const init = async () => {
   const response = await fetchApi("/search", "post", {
     data: {
       keyword: routes.query.keyword,
-      platform: routes.query.platform
+      platform: routes.query.platform,
     },
   });
   loading.value = false;
