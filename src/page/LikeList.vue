@@ -11,6 +11,12 @@
         :track="track"
         @handleLike="handleLike"
       />
+      <div
+        v-if="likeList.length === 0"
+        class="w-full h-full flex items-center justify-center text-xl font-semibold"
+      >
+        No Data
+      </div>
     </ScrollFrame>
   </div>
 </template>

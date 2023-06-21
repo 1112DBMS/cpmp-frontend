@@ -16,13 +16,6 @@
               <button
                 class="btn"
                 dropdown-closer
-                @click="() => handleSelectTime(0)"
-              >
-                {{ timeString(0) }}
-              </button>
-              <button
-                class="btn"
-                dropdown-closer
                 @click="() => handleSelectTime(24)"
               >
                 {{ timeString(24) }}
@@ -48,6 +41,13 @@
               >
                 {{ timeString(720) }}
               </button>
+              <button
+                class="btn"
+                dropdown-closer
+                @click="() => handleSelectTime(0)"
+              >
+                {{ timeString(0) }}
+              </button>
             </div>
           </div>
         </template>
@@ -64,6 +64,12 @@
         @handleEnqueue="handleSelect"
         @handleLike="handleLike"
       />
+      <div
+        v-if="result.length === 0"
+        class="w-full h-full flex items-center justify-center text-xl font-semibold"
+      >
+        No Data
+      </div>
     </ScrollFrame>
   </div>
 </template>
