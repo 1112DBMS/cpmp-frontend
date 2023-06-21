@@ -52,6 +52,7 @@ useInfiniteScroll(
     const response = await fetchApi("/search", "post", {
       data: {
         keyword: routes.query.keyword,
+        platform: routes.query.platform,
         offset: result.value.length,
         len: 10,
       },
@@ -75,6 +76,7 @@ const init = async () => {
   const response = await fetchApi("/search", "post", {
     data: {
       keyword: routes.query.keyword,
+      platform: routes.query.platform
     },
   });
   loading.value = false;
@@ -93,6 +95,11 @@ onMounted(() => init());
 
 watch(
   () => routes.query.keyword,
+  () => init()
+);
+
+watch(
+  () => routes.query.platform,
   () => init()
 );
 </script>

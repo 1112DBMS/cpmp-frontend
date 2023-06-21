@@ -10,6 +10,7 @@ export const usePlayer = defineStore("player", () => {
   // 0: no loop, 1: queue, 2: one song
   const loop = ref<0 | 1 | 2>(0);
   const loopLoading = ref(false);
+  const shuffleLoading = ref(false);
 
   const user = useUserStore();
 
@@ -130,13 +131,27 @@ export const usePlayer = defineStore("player", () => {
     loopLoading.value = false;
   };
 
-  const toggleShuffle = () => {};
+  const toggleShuffle = async () => {
+    shuffleLoading.value = true;
+    try {
+      const response = await fetchApi("/queue/shuffle", "POST", {
+        data: {
+          queue: queueId.value,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    await getQueue();
+    shuffleLoading.value = false;
+  };
 
   return {
     track,
     loop,
     loading,
     loopLoading,
+    shuffleLoading,
     queue,
     enqueue,
     next,
